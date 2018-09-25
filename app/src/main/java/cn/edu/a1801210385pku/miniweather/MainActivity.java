@@ -1,5 +1,8 @@
 package cn.edu.a1801210385pku.miniweather;
 
+import android.app.Activity;
+import android.os.Bundle;
+
 /**
  * Created by 涛 on 2018/9/25.
  */

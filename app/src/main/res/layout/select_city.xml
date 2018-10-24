@@ -31,5 +31,12 @@
             android:layout_toRightOf="@id/title_back"
             android:background="#A71717"
             android:gravity="center" />
+        <ListView
+            android:layout_width="wrap_content"
+            android:id="@+id/title_list"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_name"
+            android:background="#ffffff">
+        </ListView>
     </RelativeLayout>
 </RelativeLayout>

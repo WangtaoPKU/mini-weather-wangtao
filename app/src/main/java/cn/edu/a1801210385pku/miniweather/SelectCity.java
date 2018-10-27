@@ -24,7 +24,7 @@ public class SelectCity extends Activity implements View.OnClickListener{
 
     private ImageView mBackBtn;
     private ListView mList;
-    //private Myadapter myadapter;
+    private Myadapter myadapter;
     List<City> filterDateList = new ArrayList<City>();  //自己添加的list
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -58,7 +58,7 @@ public class SelectCity extends Activity implements View.OnClickListener{
         for (City city : cityList){
             filterDateList.add(city);
         }
-        myadapter = new Myadapter(SelectCity.this,cityList);
+        myadapter = new Myadapter(SelectCity.this, R.layout.city_list,cityList);
         mList.setAdapter(myadapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -71,7 +71,6 @@ public class SelectCity extends Activity implements View.OnClickListener{
             }
         });
         */
-
     }
 
 }

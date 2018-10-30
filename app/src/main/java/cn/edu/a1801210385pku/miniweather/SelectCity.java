@@ -3,12 +3,15 @@ package cn.edu.a1801210385pku.miniweather;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,55 +26,62 @@ import cn.edu.pku.wangtao.bean.City;
 public class SelectCity extends Activity implements View.OnClickListener{
 
     private ImageView mBackBtn;
-    private ListView mList;
-    private Myadapter myadapter;
-    List<City> filterDateList = new ArrayList<City>();  //自己添加的list
+    private ListView listView=null;
+    private TextView cityselected=null;
+    private List<City> listcity = MyApplication.getInstance().getCityList();
+    private int listSize = listcity.size();
+    private String[] city = new String[listSize];
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.select_city);
-        initViews();
-
         mBackBtn = (ImageView) findViewById(R.id.title_back);
+        cityselected = (TextView) findViewById(R.id.title_name);
         mBackBtn.setOnClickListener(this);
+        Log.i("City", listcity.get(1).getCity());
+        for(int i = 0; i < listSize; i++){
+            city[i] = listcity.get(i).getCity();
+            Log.d("City", city[i]);
+        }
+        ArrayAdapter<String> arrayAdapter = new
+                ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_single_choice,
+                city);
+        listView = (ListView)findViewById(R.id.list_view);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new
+                                                AdapterView.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> adapterView,
+                                                                            View view,
+                                                                            int i, long l) {
+                                                        Toast.makeText(SelectCity.this, "你已选择：" +
+                                                                        city[i],
+                                                                Toast.LENGTH_SHORT).show();
+                                                        cityselected.setText("当前城市："+city[i]);
+                                                    }
+                                                });
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.title_back:
+                int position = listView.getCheckedItemPosition();
+                String select_cityCode =
+                        listcity.get(position).getNumber();
                 Intent i = new Intent();
-                i.putExtra("cityCode", "101160101");
+                i.putExtra("cityCode", select_cityCode);
                 setResult(RESULT_OK, i);
+                Log.d("citycode",select_cityCode);
                 finish();
                 break;
             default:
                 break;
         }
     }
-    private void initViews(){
-        /*
-        mList=(ListView) findViewById(R.id.title_list);
-        MyApplication myApplication =(MyApplication) getApplication();
-        cityList=myApplication.getCityList();
-        for (City city : cityList){
-            filterDateList.add(city);
-        }
-        myadapter = new Myadapter(SelectCity.this, R.layout.city_list,cityList);
-        mList.setAdapter(myadapter);
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView,View view,int position,long 1){
-                City city=filterDateList.get(position);
-                Intent i =new Intent();
-                i.putExtra("cityCode",city.getNumber());
-                setResult(RESULT_OK,i);
-                finish();
-            }
-        });
-        */
-    }
+
+
 
 }
 
